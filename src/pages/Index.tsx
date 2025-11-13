@@ -42,6 +42,38 @@ const Index = () => {
   const handleLogout = () => {
     setCurrentUser(null);
     setActiveTab('dashboard');
+    toast({
+      title: 'Выход выполнен',
+      description: 'До встречи!',
+    });
+  };
+
+  const handleDownloadPDF = (contractNumber: string) => {
+    toast({
+      title: 'Формирование PDF',
+      description: `Договор ${contractNumber} готовится к скачиванию...`,
+    });
+  };
+
+  const handleAddEquipment = () => {
+    toast({
+      title: 'Оборудование добавлено',
+      description: 'Новая единица техники добавлена в каталог',
+    });
+  };
+
+  const handleRentEquipment = (equipmentName: string) => {
+    toast({
+      title: 'Оформление аренды',
+      description: `Создан договор на ${equipmentName}`,
+    });
+  };
+
+  const handleExportReport = (format: string, reportName: string) => {
+    toast({
+      title: `Экспорт в ${format}`,
+      description: `Отчет "${reportName}" подготовлен к скачиванию`,
+    });
   };
 
   if (!currentUser) {
@@ -296,7 +328,7 @@ const Index = () => {
                         <Label>Стоимость аренды (₽/день)</Label>
                         <Input type="number" placeholder="1000" />
                       </div>
-                      <Button className="w-full">Добавить</Button>
+                      <Button className="w-full" onClick={handleAddEquipment}>Добавить</Button>
                     </div>
                   </DialogContent>
                 </Dialog>
@@ -335,7 +367,7 @@ const Index = () => {
                         <p className="text-xs text-muted-foreground">за день</p>
                       </div>
                       {item.status === 'available' && (
-                        <Button size="sm">
+                        <Button size="sm" onClick={() => handleRentEquipment(item.name)}>
                           <Icon name="Plus" size={14} className="mr-1" />
                           Арендовать
                         </Button>
@@ -421,7 +453,7 @@ const Index = () => {
                           </Badge>
                         </TableCell>
                         <TableCell className="text-right">
-                          <Button variant="ghost" size="sm">
+                          <Button variant="ghost" size="sm" onClick={() => handleDownloadPDF(rental.number)}>
                             <Icon name="Download" size={14} className="mr-1" />
                             PDF
                           </Button>
@@ -572,11 +604,11 @@ const Index = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="flex gap-2">
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" onClick={() => handleExportReport('PDF', 'Отчет по выручке')}>
                       <Icon name="FileText" size={14} className="mr-1" />
                       PDF
                     </Button>
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" onClick={() => handleExportReport('Excel', 'Отчет по выручке')}>
                       <Icon name="FileSpreadsheet" size={14} className="mr-1" />
                       Excel
                     </Button>
@@ -596,11 +628,11 @@ const Index = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="flex gap-2">
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" onClick={() => handleExportReport('PDF', 'Загрузка оборудования')}>
                       <Icon name="FileText" size={14} className="mr-1" />
                       PDF
                     </Button>
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" onClick={() => handleExportReport('Excel', 'Загрузка оборудования')}>
                       <Icon name="FileSpreadsheet" size={14} className="mr-1" />
                       Excel
                     </Button>
@@ -620,11 +652,11 @@ const Index = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="flex gap-2">
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" onClick={() => handleExportReport('PDF', 'Просрочки и задолженности')}>
                       <Icon name="FileText" size={14} className="mr-1" />
                       PDF
                     </Button>
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" onClick={() => handleExportReport('Excel', 'Просрочки и задолженности')}>
                       <Icon name="FileSpreadsheet" size={14} className="mr-1" />
                       Excel
                     </Button>
@@ -644,11 +676,11 @@ const Index = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="flex gap-2">
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" onClick={() => handleExportReport('PDF', 'История клиентов')}>
                       <Icon name="FileText" size={14} className="mr-1" />
                       PDF
                     </Button>
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" onClick={() => handleExportReport('Excel', 'История клиентов')}>
                       <Icon name="FileSpreadsheet" size={14} className="mr-1" />
                       Excel
                     </Button>
